@@ -7,7 +7,7 @@ import {
 } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
-import { Storage } from '@capacitor/storage';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,11 +31,8 @@ export class PhotoService {
 
     // Guardar la lista de fotos
     await this.savePhotos();
-    Storage.set({
-      key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
-    });
   }
+
   // Guardar la lista de fotos en el sistema de archivos
   private async savePhotos() {
     await Preferences.set({
@@ -43,10 +40,11 @@ export class PhotoService {
       value: JSON.stringify(this.photos), // Convertir la lista de fotos a un string
     });
   }
+
   // Cargar las fotos guardadas en el sistema de archivos
   public async loadSaved() {
     const photoString = await Preferences.get({ key: this.PHOTO_STORAGE }); // Obtener la lista de fotos guardadas
-    this.photos = photoString ? JSON.parse(photoString.value ?? '[]') : []; // Convertir el string a un array de fotos guardadas en el sistema de archivos
+    this.photos = photoString.value ? JSON.parse(photoString.value) : []; // Convertir el string a un array de fotos guardadas en el sistema de archivos
 
     // Cargar las fotos guardadas en el sistema de archivos y convertirlas a base64 para mostrarlas
     for (let photo of this.photos) {
@@ -56,8 +54,7 @@ export class PhotoService {
       });
 
       // Convertir el contenido del archivo a base64
-      const photoBase64 = `data:image/jpeg;base64,${readFile.data}`;
-      photo.webviewPath = photoBase64;
+      photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
     }
   }
 
@@ -96,22 +93,7 @@ export class PhotoService {
       reader.readAsDataURL(blob);
     });
   }
-  //Recuperar fotos del Cache
-  public async LoadSaved() {
-    const listPhotos = await Storage.get({ key: this.PHOTO_STORAGE }); // Obtener la lista de fotos guardadas
-    const storedPhotos = listPhotos.value ? JSON.parse(listPhotos.value) : []; // Convertir el string a un array de fotos guardadas en el sistema de archivos
-    this.photos = storedPhotos || []; // Cargar las fotos guardadas en el sistema de archivos
-    //Desplegar las fotos guardadas en el sistema de archivos en base64
-    for (let photo of this.photos) {
-      // Leer el archivo y convertirlo a base64
-      const readFile = await Filesystem.readFile({
-        path: photo.filepath, // Ruta del archivo
-        directory: Directory.Data, // Directorio donde se encuentra el archivo
-      });
-      // Convertir el contenido del archivo a base64 para ambiente WEB
-      photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
-    }
-  }
+
   //ELiminar
   public async deletePicture(photo: UserPhoto, position: number) {
     // Remove this photo from the Photos reference data array

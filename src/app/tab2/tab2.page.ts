@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PhotoService, UserPhoto } from '../services/photo.service'; // Asegúrate de importar UserPhoto
+import { PhotoService, UserPhoto } from '../services/photo.service'; // Importamos el servicio de la camara que se creo desde photo.service.ts
 import { ActionSheetController } from '@ionic/angular';
 
 @Component({
@@ -8,10 +8,8 @@ import { ActionSheetController } from '@ionic/angular';
   styleUrls: ['tab2.page.scss'],
 })
 export class Tab2Page {
-  constructor(
-    public photoService: PhotoService,
-    public actionSheetController: ActionSheetController
-  ) {}
+
+  constructor(public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
 
   addPhotoToGallery() {
     this.photoService.addNewToGallery();
@@ -20,29 +18,25 @@ export class Tab2Page {
   public async showActionSheet(photo: UserPhoto, position: number) {
     const actionSheet = await this.actionSheetController.create({
       header: 'Photos',
-      buttons: [
-        {
-          text: 'Delete',
-          role: 'destructive',
-          icon: 'trash',
-          handler: () => {
-            this.photoService.deletePicture(photo, position);
-          },
-        },
-        {
-          text: 'Cancel',
-          icon: 'close',
-          role: 'cancel',
-          handler: () => {
-            // Nothing to do, action sheet is automatically closed
-          },
-        },
-      ],
+      buttons: [{
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          this.photoService.deletePicture(photo, position);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // Aqui no hacemos nada porque el usuario cancela accion de borrar la foto
+        }
+      }]
     });
     await actionSheet.present();
   }
 
-  // Function that runs once when the component initializes
   async ngOnInit() {
     await this.photoService.loadSaved();
   }
