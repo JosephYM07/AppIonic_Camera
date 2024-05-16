@@ -20,24 +20,24 @@ export class PhotoService {
 
   public async addNewToGallery() {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Add Photo',
+      header: 'Selecciona una opción',
       buttons: [
         {
-          text: 'Take Photo',
+          text: 'Tomar Foto',
           icon: 'camera',
           handler: () => {
             this.takePhoto(CameraSource.Camera);
           },
         },
         {
-          text: 'Choose from Gallery',
+          text: 'Seleccionar de la galería',
           icon: 'images',
           handler: () => {
             this.takePhoto(CameraSource.Photos);
           },
         },
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           icon: 'close',
           role: 'cancel',
         },
