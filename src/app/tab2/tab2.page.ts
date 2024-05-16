@@ -17,7 +17,7 @@ export class Tab2Page {
 
   public async showActionSheet(photo: UserPhoto, position: number) {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Photos',
+      header: 'Fotos de la galería',
       buttons: [{
         text: 'Eliminar',
         role: 'destructive',
