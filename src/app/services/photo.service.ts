@@ -7,6 +7,7 @@ import {
 } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
+import { ActionSheetController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +16,41 @@ export class PhotoService {
   public photos: UserPhoto[] = [];
   private readonly PHOTO_STORAGE: string = 'photos';
 
-  constructor() {}
+  constructor(private actionSheetController: ActionSheetController) {}
 
   public async addNewToGallery() {
-    // Tomar una foto
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Add Photo',
+      buttons: [
+        {
+          text: 'Take Photo',
+          icon: 'camera',
+          handler: () => {
+            this.takePhoto(CameraSource.Camera);
+          },
+        },
+        {
+          text: 'Choose from Gallery',
+          icon: 'images',
+          handler: () => {
+            this.takePhoto(CameraSource.Photos);
+          },
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+        },
+      ],
+    });
+    await actionSheet.present();
+  }
+
+  private async takePhoto(source: CameraSource) {
+    // Tomar o seleccionar una foto
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
+      source: source,
       quality: 100,
     });
 
