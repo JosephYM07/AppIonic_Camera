@@ -1,11 +1,14 @@
 #Evaluación Cámara
+
 ##Deploy en Android con componentes de cámara
+
 ###Integrantes
 * Alejandro Moreira
 * Jared Valenzuela
 * Joseph Yepez
 
 ###Programa en ejecución
+
 ###SplashScreen
 ![image](https://github.com/JosephYM07/AppIonic_Camera/assets/117743484/649e2069-3007-4675-bbdb-54c44024f837)
 ![image](https://github.com/JosephYM07/AppIonic_Camera/assets/117743484/4b4567a2-68bf-4db4-95eb-4bb234007055)
