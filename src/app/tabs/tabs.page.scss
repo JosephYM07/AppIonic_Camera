@@ -1,1 +1,18 @@
 
+ion-tab-button[tab="tab1"] {
+    --color-selected: rgb(121, 121, 13); /* seleccionado*/
+    --color: rgb(5, 5, 107); /*no seleccionado*/
+}
+
+
+ion-tab-button[tab="tab2"] {
+    --color-selected: rgb(121, 121, 13); /* seleccionado*/
+    --color:rgb(5, 5, 107); /*no seleccionado*/
+}
+
+
+ion-tab-button[tab="tab3"] {
+    --color-selected: rgb(121, 121, 13); /* seleccionado*/
+    --color: rgb(5, 5, 107);/*no seleccionado*/
+}
+
